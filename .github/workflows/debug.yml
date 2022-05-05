@@ -1,0 +1,12 @@
+name: Checkrun
+
+on:
+  check_run: 
+    types: [ completed ]
+
+jobs:
+  scan:
+   runs-on: ubuntu-latest
+   steps:
+      - uses: hmarr/debug-action@v2
+
