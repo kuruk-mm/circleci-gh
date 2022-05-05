@@ -5,10 +5,12 @@ on:
     types: [ completed ]
 
 jobs:
-  scan:
+  release:
    runs-on: ubuntu-latest
    steps:
       - uses: hmarr/debug-action@v2
+      - name: Checkout
+        uses: actions/checkout@v2
       - name: Set version
         shell: bash
         run: |
@@ -23,5 +25,4 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.set_version.outputs.number }}
-          files: |
-            hello_world
+          files: LICENSE
