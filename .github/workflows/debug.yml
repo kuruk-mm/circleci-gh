@@ -9,4 +9,19 @@ jobs:
    runs-on: ubuntu-latest
    steps:
       - uses: hmarr/debug-action@v2
-
+      - name: Set version
+        shell: bash
+        run: |
+          COMMIT_HASH=${{ github.sha }}
+          DATE=$(date '+%Y%m%d%H%M%S')
+          VERSION=1.0.${{github.run_number}}-${DATE}.commit-${COMMIT_HASH::7}
+          echo ${VERSION}
+          echo "##[set-output name=number;]$(echo ${VERSION})"
+          echo ${VERSION} > hello_world
+        id: set_version
+      - name: Release
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.set_version.outputs.number }}
+          files: |
+            hello_world
