@@ -10,7 +10,7 @@ jobs:
    if: |
     github.event.check_run.app.name == 'CircleCI Checks'
     && github.event.check_run.conclusion == 'success'
-    && github.event.check_run.name == 'build-deploy' }}
+    && github.event.check_run.name == 'build-deploy'
     && github.event.check_run.check_suite.head_branch == 'main'
    runs-on: ubuntu-latest
    steps:
