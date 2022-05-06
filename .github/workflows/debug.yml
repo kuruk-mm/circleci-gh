@@ -27,10 +27,17 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y jq
+
+          # Get current commit hash
           NEW_COMMIT_HASH=$(echo -n ${{ github.sha }} | tail -c 7)
+
+          # Fetch last version
           LAST_VERSION=$(curl https://api.github.com/repos/decentraland/explorer-desktop/releases/latest --silent | jq '.name' -r)
+
+          # Get the commit from the last 7 characters of the version
           LAST_COMMIT_HASH=$(echo -n ${LAST_VERSION} | tail -c 7)
 
+          # Compare and throw error if are equal
           [[ "${NEW_COMMIT_HASH}" == "${LAST_COMMIT_HASH}" ]] && echo "Error: You can't execute another release with the same commit hash that the last one" && exit 1
       - name: Release
         uses: softprops/action-gh-release@v1
