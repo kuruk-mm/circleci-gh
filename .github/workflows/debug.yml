@@ -1,4 +1,4 @@
-name: Checkrun
+name: Checkrun!
 
 on:
   check_run: 
