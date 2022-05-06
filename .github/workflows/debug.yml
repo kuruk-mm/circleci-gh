@@ -22,6 +22,16 @@ jobs:
           echo "##[set-output name=number;]$(echo ${VERSION})"
           echo ${VERSION} > hello_world
         id: set_version
+      - name: Check last commit release
+        shell: bash
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y jq
+          NEW_COMMIT_HASH=$(echo -n ${{ github.sha }} | tail -c 7)
+          LAST_VERSION=$(curl https://api.github.com/repos/decentraland/explorer-desktop/releases/latest --silent | jq '.name' -r)
+          LAST_COMMIT_HASH=$(echo -n ${LAST_VERSION} | tail -c 7)
+
+          [[ "${NEW_COMMIT_HASH}" == "${LAST_COMMIT_HASH}" ]] && echo "Error: You can't execute another release with the same commit hash that the last one" && exit 1
       - name: Release
         uses: softprops/action-gh-release@v1
         with:
