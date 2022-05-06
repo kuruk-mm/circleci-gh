@@ -36,6 +36,8 @@ jobs:
           LAST_COMMIT_HASH=$(echo -n "${LAST_VERSION}" | tail -c 7)
 
           # Compare and throw error if are equal
+          echo "Last hash: ${LAST_COMMIT_HASH}"
+          echo "New hash: ${NEW_COMMIT_HASH}"
           [[ "${NEW_COMMIT_HASH}" == "${LAST_COMMIT_HASH}" ]] && echo "Error: You can't execute another release with the same commit hash that the last one" && exit 2
       - name: Release
         uses: softprops/action-gh-release@v1
